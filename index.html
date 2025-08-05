@@ -1,10 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Game Coming Soon</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wrestling RPG</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Game Coming Soon</h1>
+    <div id="gameContainer">
+        <div id="gameCanvas">
+            <div id="world"></div>
+            <div id="player"></div>
+        </div>
+        
+        <div id="ui">
+            <div id="stats">
+                <div class="stat-item">
+                    <span class="stat-label">Active Wrestlers:</span>
+                    <span id="rosterCount">0/6</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Location:</span>
+                    <span id="currentLocation">Wrestling Arena</span>
+                </div>
+            </div>
+            
+            <div id="controls">
+                <div class="control-hint">Use Arrow Keys to Move</div>
+                <div class="control-hint">Press R to View Roster</div>
+            </div>
+        </div>
+        
+        <div id="rosterModal" class="modal hidden">
+            <div class="modal-content">
+                <h2>Your Wrestling Roster</h2>
+                <div id="rosterList"></div>
+                <button id="closeRoster" class="btn">Close</button>
+            </div>
+        </div>
+        
+        <div id="battleTransition" class="battle-transition hidden">
+            <div class="transition-text">WRESTLER APPROACHES!</div>
+        </div>
+    </div>
+    
+    <script type="module" src="js/tilemap.js"></script>
+    <script type="module" src="js/roster.js"></script>
+    <script type="module" src="js/utils.js"></script>
 </body>
 </html>
