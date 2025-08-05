@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wrestling Battle</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="battleContainer">
+        <div id="battleArena">
+            <div id="playerWrestler" class="wrestler-sprite player-side">
+                <div class="wrestler-name" id="playerName">Your Wrestler</div>
+                <div class="hp-bar-container">
+                    <div class="hp-bar" id="playerHpBar">
+                        <div class="hp-fill" id="playerHpFill"></div>
+                    </div>
+                    <div class="hp-text" id="playerHpText">100/100</div>
+                </div>
+            </div>
+            
+            <div id="opponentWrestler" class="wrestler-sprite opponent-side">
+                <div class="wrestler-name" id="opponentName">Opponent</div>
+                <div class="hp-bar-container">
+                    <div class="hp-bar" id="opponentHpBar">
+                        <div class="hp-fill" id="opponentHpFill"></div>
+                    </div>
+                    <div class="hp-text" id="opponentHpText">100/100</div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="battleMenu">
+            <div id="battleLog" class="battle-log">
+                <div class="log-entry">A wrestler challenges you to a match!</div>
+            </div>
+            
+            <div id="moveSelection" class="move-selection">
+                <h3>Select Your Move:</h3>
+                <div class="moves-grid">
+                    <button class="move-btn" data-move="bigMove">
+                        <div class="move-name">Big Move</div>
+                        <div class="move-damage">Damage: 15-25</div>
+                    </button>
+                    <button class="move-btn" data-move="signature">
+                        <div class="move-name">Signature</div>
+                        <div class="move-damage">Damage: 20-30</div>
+                    </button>
+                    <button class="move-btn" data-move="taunt">
+                        <div class="move-name">Taunt</div>
+                        <div class="move-damage">Damage: 5-10</div>
+                    </button>
+                    <button class="move-btn" data-move="finisher">
+                        <div class="move-name">Finisher</div>
+                        <div class="move-damage">Damage: 30-40</div>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="victoryModal" class="modal hidden">
+            <div class="modal-content victory-content">
+                <h2>🏆 VICTORY! 🏆</h2>
+                <div id="victoryMessage"></div>
+                <button id="continueBtn" class="btn">Continue</button>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="js/battle.js"></script>
+    <script type="module" src="js/roster.js"></script>
+    <script type="module" src="js/utils.js"></script>
+</body>
+</html>
