@@ -1,0 +1,427 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', monospace;
+    background-color: #1a1a2e;
+    color: #eee;
+    overflow: hidden;
+}
+
+/* Game Container */
+#gameContainer {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    background: linear-gradient(135deg, #16213e 0%, #0f3460 100%);
+}
+
+#gameCanvas {
+    width: 800px;
+    height: 600px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 3px solid #e94560;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #2d2d44;
+}
+
+/* World and Player */
+#world {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background-image: 
+        repeating-linear-gradient(0deg, #3a3a4a 0px, #3a3a4a 32px, #2d2d44 32px, #2d2d44 64px),
+        repeating-linear-gradient(90deg, #3a3a4a 0px, #3a3a4a 32px, #2d2d44 32px, #2d2d44 64px);
+}
+
+#player {
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    background-color: #4cc9f0;
+    border: 2px solid #fff;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    z-index: 10;
+}
+
+#player::before {
+    content: '🤼';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+}
+
+/* NPCs */
+.npc {
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    background-color: #e94560;
+    border: 2px solid #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.npc::before {
+    content: '💪';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+}
+
+.npc:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(233, 69, 96, 0.5);
+}
+
+/* UI Elements */
+#ui {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 15px;
+    border-radius: 10px;
+    border: 2px solid #e94560;
+}
+
+#stats {
+    margin-bottom: 15px;
+}
+
+.stat-item {
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.stat-label {
+    color: #4cc9f0;
+    font-weight: bold;
+}
+
+#controls {
+    font-size: 12px;
+    color: #aaa;
+}
+
+.control-hint {
+    margin-bottom: 3px;
+}
+
+/* Modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: #2d2d44;
+    padding: 30px;
+    border-radius: 15px;
+    border: 3px solid #e94560;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+}
+
+.modal-content h2 {
+    color: #4cc9f0;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+#rosterList {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.wrestler-card {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 1px solid #4cc9f0;
+}
+
+.wrestler-card h4 {
+    color: #e94560;
+    margin-bottom: 5px;
+}
+
+.wrestler-stats {
+    font-size: 12px;
+    color: #aaa;
+}
+
+.btn {
+    background: #e94560;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    background: #c13651;
+    transform: translateY(-2px);
+}
+
+/* Battle Transition */
+.battle-transition {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(233, 69, 96, 0.9) 0%, rgba(0, 0, 0, 1) 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.battle-transition.hidden {
+    display: none;
+}
+
+.transition-text {
+    font-size: 48px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* Battle Screen */
+#battleContainer {
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    display: flex;
+    flex-direction: column;
+}
+
+#battleArena {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px;
+    position: relative;
+}
+
+#battleArena::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(233, 69, 96, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 50%, rgba(76, 201, 240, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.wrestler-sprite {
+    width: 150px;
+    height: 150px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 3px solid #fff;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.player-side {
+    border-color: #4cc9f0;
+    box-shadow: 0 0 20px rgba(76, 201, 240, 0.5);
+}
+
+.opponent-side {
+    border-color: #e94560;
+    box-shadow: 0 0 20px rgba(233, 69, 96, 0.5);
+}
+
+.wrestler-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.player-side .wrestler-name {
+    color: #4cc9f0;
+}
+
+.opponent-side .wrestler-name {
+    color: #e94560;
+}
+
+.hp-bar-container {
+    width: 120px;
+    margin-top: 10px;
+}
+
+.hp-bar {
+    width: 100%;
+    height: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #fff;
+}
+
+.hp-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4cc9f0 0%, #7209b7 100%);
+    transition: width 0.5s ease;
+    border-radius: 9px;
+}
+
+.hp-text {
+    font-size: 12px;
+    text-align: center;
+    margin-top: 5px;
+    color: #fff;
+}
+
+#battleMenu {
+    background: rgba(0, 0, 0, 0.9);
+    padding: 20px;
+    border-top: 3px solid #e94560;
+}
+
+.battle-log {
+    height: 100px;
+    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #4cc9f0;
+}
+
+.log-entry {
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #aaa;
+}
+
+.move-selection h3 {
+    color: #4cc9f0;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.moves-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.move-btn {
+    background: rgba(233, 69, 96, 0.8);
+    color: white;
+    border: 2px solid #e94560;
+    padding: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.move-btn:hover {
+    background: rgba(233, 69, 96, 1);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(233, 69, 96, 0.3);
+}
+
+.move-name {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.move-damage {
+    font-size: 12px;
+    color: #ccc;
+}
+
+.victory-content {
+    background: linear-gradient(135deg, #2d2d44 0%, #16213e 100%);
+    border-color: #4cc9f0;
+}
+
+.victory-content h2 {
+    color: #4cc9f0;
+    font-size: 32px;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+#victoryMessage {
+    margin-bottom: 20px;
+    font-size: 18px;
+    color: #fff;
+}
+
+/* Animations */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes flash {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+.flash {
+    animation: flash 0.5s ease-in-out;
+}
